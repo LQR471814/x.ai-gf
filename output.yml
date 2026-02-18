@@ -1,0 +1,356 @@
+constraint: a person exists named Claire
+children:
+- constraint: All students must complete a mandatory wellness module before the end of the semester.
+  children:
+  - constraint: Claire is a student in the computer science department.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - Claire is a student in the computer science department.
+      - Claire has a documented medical condition that requires her to complete the wellness module in an alternative format.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - Claire is a student in the computer science department.
+      - The wellness module is delivered through the university's online learning platform.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - Claire is a student in the computer science department.
+      - The computer science department has a policy that all students must complete a cybersecurity awareness component as part of the wellness module.
+  - constraint: The wellness module must be completed by the end of the first month of the semester.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - The wellness module must be completed by the end of the first month of the semester.
+      - The wellness module must be completed with a minimum passing grade of 80%.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - The wellness module must be completed by the end of the first month of the semester.
+      - The wellness module is available only through the university's official learning management system.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - The wellness module must be completed by the end of the first month of the semester.
+      - Students who fail the wellness module are required to retake it within the next academic term.
+  - constraint: Students who do not complete the wellness module by the deadline are placed on academic probation.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - Students who do not complete the wellness module by the deadline are placed on academic probation.
+      - The wellness module must be completed online via the university portal.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - Students who do not complete the wellness module by the deadline are placed on academic probation.
+      - Students on academic probation must complete the wellness module within two weeks to avoid additional penalties.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - Students who do not complete the wellness module by the deadline are placed on academic probation.
+      - The university provides a counseling service for students having difficulties with the wellness module.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - Students who do not complete the wellness module by the deadline are placed on academic probation.
+      - Early completion of the wellness module grants students a small bonus point in their final grade.
+  - constraint: The wellness module includes a module on healthy eating habits.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - The wellness module includes a module on healthy eating habits.
+      - All students must complete the wellness module by the end of the first week of the semester.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - The wellness module includes a module on healthy eating habits.
+      - The wellness module must include accommodations for students with dietary restrictions.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - The wellness module includes a module on healthy eating habits.
+      - Students who do not complete the wellness module by the deadline will be ineligible for the final exams.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - The wellness module includes a module on healthy eating habits.
+      - The wellness module includes a module on stress management techniques.
+  - constraint: All students must have a valid student ID card to access the university library.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - All students must have a valid student ID card to access the university library.
+      - All students must complete a digital literacy course before the end of the semester.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - All students must have a valid student ID card to access the university library.
+      - Students must have a valid health insurance policy to access campus health services.
+    - - modern day university setting
+      - a person exists named Claire
+      - All students must complete a mandatory wellness module before the end of the semester.
+      - All students must have a valid student ID card to access the university library.
+      - Students must attend at least 75% of their in-person classes to receive credit for the course.
+- constraint: Claire is the president of the student council.
+  children:
+  - constraint: Claire has a 3.7 GPA
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire has a 3.7 GPA
+      - Claire is a member of the debate team.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire has a 3.7 GPA
+      - Claire has a part-time job at a campus coffee shop.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire has a 3.7 GPA
+      - Claire's major is Computer Science.
+  - constraint: All student council members must attend mandatory training sessions
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - All student council members must attend mandatory training sessions
+      - All student council members must have a minimum GPA of 3.0 to be eligible for the position.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - All student council members must attend mandatory training sessions
+      - The student council has a budget of $5000 per semester for student activities.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - All student council members must attend mandatory training sessions
+      - The mandatory training sessions are conducted by the university's career services office.
+  - constraint: Claire is a member of the robotics club
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire is a member of the robotics club
+      - Claire is a computer science major.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire is a member of the robotics club
+      - Claire has a part-time job at a local tech startup.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire is a member of the robotics club
+      - Claire is the lead organizer for the university's sustainability initiative.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire is a member of the robotics club
+      - Claire is taking an advanced course in artificial intelligence this semester.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire is a member of the robotics club
+      - Claire has built a personal open-source robotics project.
+  - constraint: The student council meets every Tuesday at 2:00 PM in the student center
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - The student council meets every Tuesday at 2:00 PM in the student center
+      - The student council has a budget of $5,000 per semester for student activities.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - The student council meets every Tuesday at 2:00 PM in the student center
+      - Claire is a member of the university's environmental club.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - The student council meets every Tuesday at 2:00 PM in the student center
+      - The student center is located on the third floor of the main campus building.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - The student council meets every Tuesday at 2:00 PM in the student center
+      - Claire volunteers at the campus food bank every Thursday.
+  - constraint: Claire resides in the North Campus dormitory
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire resides in the North Campus dormitory
+      - Claire is a biology major
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire resides in the North Campus dormitory
+      - Claire is 20 years old
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire resides in the North Campus dormitory
+      - Claire resides in room 305 of the North Campus dormitory
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire is the president of the student council.
+      - Claire resides in the North Campus dormitory
+      - Claire is a member of the debate team
+- constraint: The university has a new AI-powered tutoring system that is available to all students.
+  children:
+  - constraint: The AI tutoring system requires students to verify their identity through a university-issued ID.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - The AI tutoring system requires students to verify their identity through a university-issued ID.
+      - The AI tutoring system is only accessible during university business hours (8 AM to 10 PM).
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - The AI tutoring system requires students to verify their identity through a university-issued ID.
+      - Students must complete a mandatory 5-minute orientation video before using the AI tutoring system for the first time.
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - The AI tutoring system requires students to verify their identity through a university-issued ID.
+      - Claire has a university-issued ID that is a smart card, which allows for contactless verification at the tutoring kiosks.
+  - constraint: Students can access the AI tutoring system only during the university's academic term.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - Students can access the AI tutoring system only during the university's academic term.
+      - Claire is a student in the Computer Science department.
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - Students can access the AI tutoring system only during the university's academic term.
+      - The AI tutoring system does not have access to students' personal health information.
+  - constraint: The AI tutoring system does not have access to students' personal health information.
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - The AI tutoring system does not have access to students' personal health information.
+      - The AI tutoring system does not provide direct answers to homework problems.
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - The AI tutoring system does not have access to students' personal health information.
+      - Students must use their university email to access the AI tutoring system.
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - The AI tutoring system does not have access to students' personal health information.
+      - The AI tutoring system is not intended for mental health support.
+    - - modern day university setting
+      - a person exists named Claire
+      - The university has a new AI-powered tutoring system that is available to all students.
+      - The AI tutoring system does not have access to students' personal health information.
+      - The AI tutoring system lacks the capability to process health-related queries.
+- constraint: Claire has a part-time job at the campus coffee shop.
+  children:
+  - constraint: Claire is a student majoring in Computer Science
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire is a student majoring in Computer Science
+      - Claire is currently taking a course in Data Structures and Algorithms.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire is a student majoring in Computer Science
+      - Claire uses a smartphone for communication and accessing the internet.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire is a student majoring in Computer Science
+      - The campus coffee shop is located on the second floor of the student union building.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire is a student majoring in Computer Science
+      - Claire's part-time job at the coffee shop involves operating a coffee machine and serving customers.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire is a student majoring in Computer Science
+      - Claire has a laptop that she uses for coding and studying.
+  - constraint: The campus coffee shop is open from 7:00 AM to 10:00 PM on weekdays
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - The campus coffee shop is open from 7:00 AM to 10:00 PM on weekdays
+      - Claire works 10 hours per week at the campus coffee shop.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - The campus coffee shop is open from 7:00 AM to 10:00 PM on weekdays
+      - The campus coffee shop is closed on weekends.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - The campus coffee shop is open from 7:00 AM to 10:00 PM on weekdays
+      - Claire's part-time job requires her to be present for at least 30 minutes before the shop opens on weekdays.
+  - constraint: Claire works 10 hours per week at the campus coffee shop
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire works 10 hours per week at the campus coffee shop
+      - Claire is a student majoring in Computer Science
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire works 10 hours per week at the campus coffee shop
+      - Claire's part-time job pays $10 per hour
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire works 10 hours per week at the campus coffee shop
+      - Claire is enrolled in 15 credit hours per semester
+  - constraint: The university has a policy that part-time students must maintain a minimum GPA of 2.5
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - The university has a policy that part-time students must maintain a minimum GPA of 2.5
+      - The university requires part-time students to be enrolled in at least 6 credit hours per semester.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - The university has a policy that part-time students must maintain a minimum GPA of 2.5
+      - The campus coffee shop is open from 7:00 AM to 9:00 PM on weekdays.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - The university has a policy that part-time students must maintain a minimum GPA of 2.5
+      - Part-time students must complete a mandatory orientation session before starting their part-time job.
+  - constraint: Claire uses her student ID to receive discounts at the coffee shop
+    children:
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire uses her student ID to receive discounts at the coffee shop
+      - Claire is enrolled in at least 6 credit hours per semester.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire uses her student ID to receive discounts at the coffee shop
+      - The campus coffee shop offers free coffee to students during the first 10 minutes of their shift.
+    - - modern day university setting
+      - a person exists named Claire
+      - Claire has a part-time job at the campus coffee shop.
+      - Claire uses her student ID to receive discounts at the coffee shop
+      - Claire's student ID is issued by the university's registrar office.
