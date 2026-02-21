@@ -1,35 +1,56 @@
-let script_dir = $env.FILE_PWD
-
-export def "query" [--threshold: float]: string -> table<score: float text: string> {
-	let query = $in
-	let t: float = $threshold | default 0.0
+def ucall [method: string, ...params: string]: nothing -> record {
 	do {
-		cd $script_dir
-		let results = uv run ucall rag_query --uri=localhost --port=6567 $"query='($query)'" $"threshold=($t)"
+		cd $env.FILE_PWD
+		let call_result = uv run ucall $method --uri=localhost --port=6567 ...$params
 			| complete
-			| $in.stdout
+		if $call_result.exit_code != 0 {
+			error make {
+				label: {text: "rpc: ucall failed"}
+				msg: $call_result.stderr
+				help: ""
+			}
+		}
+		let response = $call_result.stdout
 			| from json
-			| get result
-		$results.scores
-			| enumerate
-			| insert text {|i| $results.text | get $i.index}
-			| select item text
-			| rename score text
+		if $response.error? != null {
+			error make {
+				label: {text: "rpc: ucall error"}
+				msg: ($response.error | to json)
+				help: ""
+			}
+		}
+		$response
 	}
 }
 
-export def "add" []: string -> nothing {
-	let memory = $in
-	do {
-		cd $script_dir
-		uv run ucall rag_add --uri=localhost --port=6567 --positional $memory
-			| complete
-	}
+# query searches for memories for the given query
+export def query [--threshold: float]: string -> table<id: int score: float text: string> {
+	let query = $in
+	let threshold: float = $threshold | default 0.0
+
+	let results = ucall rag_query $"query='($query)'"
+		| get result
+	$results.ids
+		| enumerate
+		| insert contents {|i| $results.contents | get $i.index}
+		| insert scores {|i| $results.scores | get $i.index}
+		| select item contents scores
+		| rename id text score
+		| where score >= $threshold
+		| sort-by score -r
 }
 
-"berlin is the capital of germany" | add
-"reranking is the second stage of modern RAG" | add
-"you can use reranking to do a range of NLP tasks" | add
-"you can use transformers for reranking" | add
+# add creates a new memory and returns its id
+export def add []: string -> int {
+	let memory: string = $in
+	ucall rag_add "--positional" $memory
+		| get result
+		| get 0
+}
 
-"how to do reranking" | query
+# relate creates a relationship between two memories
+export def relate [child: int, parent: int, type: string]: nothing -> nothing {
+	ucall rag_relate $"child=($child)" $"parent=($parent)" $"type='($type)'"
+	null
+}
+

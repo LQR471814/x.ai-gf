@@ -11,17 +11,14 @@ class AI:
         self.reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
         self.encoder = SentenceTransformer("all-MiniLM-L6-v2")
 
+    # rerank assigns a relevance score of each chunk to the given query
     def rerank(self, query: str, chunks: list[str]):
-        # 2. Predict scores (Higher score = More relevant)
+        # Predict scores (Higher score = More relevant)
         # Cross-encoders take pairs of [query, doc]
         pairs = [[query, chunk] for chunk in chunks]
-        scores = self.reranker.predict(pairs)
+        return self.reranker.predict(pairs)
 
-        # 3. Sort documents by their new scores
-        reranked_results = sorted(zip(scores, chunks), key=lambda x: x[0], reverse=True)
-
-        return reranked_results
-
+    # embed creates vector embeddings of the given sentences in batch
     def embed(self, sentences: list[str]):
         return self.encoder.encode(sentences)
 
@@ -49,41 +46,126 @@ class RAGStore:
         if os.path.isfile(self.index_path):
             self.index.load(self.index_path)
 
+    # close closes the RAGStore and all the databases/connections it has open
     def close(self):
         self.db.commit()
         self.db.close()
         self.index.save(self.index_path)
 
-    def add(self, memories: list[str]):
+    # add creates a new memory
+    def add(self, memories: list[str]) -> list[int]:
         placeholders = ", ".join(["(?)"] * len(memories))
         cursor = self.db.cursor()
         cursor.execute(
-            f"insert into memory (content) values {placeholders} on conflict do nothing returning id",
+            f"insert into memory (content) values {placeholders} returning id",
             tuple(memories),
         )
-        new_ids = np.array([row[0] for row in cursor.fetchall()])
+        new_ids_ints: list[int] = [row[0] for row in cursor.fetchall()]
+        new_ids = np.array(new_ids_ints)
         self.db.commit()
 
         print("new memories:", new_ids)
         embeddings = self.ai.embed(memories)
         self.index.add(new_ids, embeddings)
+        return new_ids_ints
 
-    def rag(self, query: str) -> list[tuple[float, str]]:
+    # relate creates a relationship between memories
+    def relate(self, child_memory: int, parent_memory: int, type: str):
+        self.db.execute(
+            "insert into relationship (child_memory_id, parent_memory_id, relationship_type) values (?, ?, ?)",
+            (child_memory, parent_memory, type),
+        )
+        self.db.commit()
+
+    # info returns parent and children memories for a given memory
+    def info(self, memory: int):
+        parent_memory_ids: list[int] = []
+        parent_relationship_types: list[str] = []
+        parent_content: list[str] = []
+
+        # get parents
+        cursor = self.db.cursor()
+        cursor.execute(
+            """
+select
+    r.parent_memory_id,
+    r.relationship_type,
+    m.content
+from relationship r
+where child_memory_id = ?
+inner join memory m
+   on r.id = m.id
+""",
+            (memory,),
+        )
+        for id, rel, content in cursor.fetchall():
+            parent_memory_ids.append(id)
+            parent_relationship_types.append(rel)
+            parent_content.append(content)
+        parents = {
+            "ids": parent_memory_ids,
+            "relationships": parent_relationship_types,
+            "content": parent_content,
+        }
+
+        # get children
+        cursor = self.db.cursor()
+        cursor.execute(
+            """
+select
+    r.child_memory_id,
+    r.relationship_type,
+    m.content
+from relationship r
+where parent_memory_id = ?
+inner join memory m
+   on r.id = m.id
+"""
+        )
+        child_memory_ids: list[int] = []
+        child_relationship_types: list[str] = []
+        child_content: list[str] = []
+        for id, rel, content in cursor.fetchall():
+            child_memory_ids.append(id)
+            child_relationship_types.append(rel)
+            child_content.append(content)
+        children = {
+            "ids": child_memory_ids,
+            "relationships": child_relationship_types,
+            "content": child_content,
+        }
+
+        return {"parents": parents, "children": children}
+
+    # rag executes a search for memories
+    def rag(self, query: str) -> dict:
         print("query:", query)
 
         query_embed = self.ai.embed([query])[0]
         matches = self.index.search(query_embed, 256)
+        match_ids = [int(match.key) for match in matches]
 
         placeholders = ", ".join(["?"] * len(matches))
         cursor = self.db.cursor()
         cursor.execute(
-            f"select content from memory where id in ({placeholders})",
-            tuple([int(match.key) for match in matches]),
+            f"select id, content from memory where id in ({placeholders})",
+            tuple(match_ids),
         )
-        memory_rows: list[tuple] = cursor.fetchall()
-        results = [row[0] for row in memory_rows]
 
-        return self.ai.rerank(query, results)
+        ids: list[int] = []
+        contents: list[str] = []
+        for id, content in cursor.fetchall():
+            ids.append(id)
+            contents.append(content)
+        scores: list[float] = [
+            float(score) for score in self.ai.rerank(query, contents)
+        ]
+
+        return {
+            "ids": ids,
+            "contents": contents,
+            "scores": scores,
+        }
 
 
 ai = AI()
@@ -92,19 +174,23 @@ server = Server(port=6567)
 
 
 @server
-def rag_query(query: str, threshold: float = 0) -> dict:
-    results = store.rag(query)
-    scores = [float(score) for score, _ in results if score >= threshold]
-    texts = [text for score, text in results if score >= threshold]
-    return {
-        "scores": scores,
-        "text": texts,
-    }
+def rag_query(query: str) -> dict:
+    return store.rag(query)
 
 
 @server
-def rag_add(memory: str) -> None:
-    store.add([memory])
+def rag_info(memory: int) -> dict:
+    return store.info(memory)
+
+
+@server
+def rag_add(memory: str) -> list[int]:
+    return store.add([memory])
+
+
+@server
+def rag_relate(child: int, parent: int, type: str) -> None:
+    return store.relate(child, parent, type)
 
 
 if __name__ == "__main__":
