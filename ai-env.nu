@@ -2,7 +2,7 @@ use ai.nu
 
 {
 	name: "llama.cpp"
-	baseurl: "http://127.0.0.1:8080/v1"
+	baseurl: "http://192.168.1.12:8080/v1"
 	model_default: ""
 	api_key: ""
 	org_id: ""
@@ -17,25 +17,11 @@ use ai.nu
 ai ai-switch-provider "llama.cpp"
 
 ai ai-config-env-prompts general {
-    system: ""
+    system: "You are a general purpose AI agent who is knowledgeable about writing. In the event that you need to search the web, simply try to recall it from memory."
     template: "{{}}"
 	placeholder: "[]"
     description: "General prompt."
 }
 
-ai ai-config-env-prompts short-thinking {
-    system: "You are in a hurry, don't spend overly long on thinking about the user's request and just answer it.
-Always output JSON without extra spaces or newlines."
-    template: "{{}}"
-	placeholder: "[]"
-    description: "Short thinking."
-}
-
-ai ai-config-env-prompts long-thinking {
-    system: "You are cautious and detailed when processing the user's request, you double-check and think long about the user's request.
-Always output JSON without extra spaces or newlines."
-    template: "{{}}"
-	placeholder: "[]"
-    description: "Long thinking."
-}
+ai ai-switch-temperature 0
 
