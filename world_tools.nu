@@ -1,4 +1,5 @@
-source ai-env.nu
+source ai_env.nu
+source mem_tools.nu
 
 def "task prompt" [title: string, desc: string, context: list<string>, --with-delegate]: nothing -> string {
 	let suffix: string = if $with_delegate {
@@ -37,14 +38,14 @@ def "delegate tool" [context: list<string>, depth: int, max_depth: int]: nothing
 			ai ai-config-alloc-tools $del_tool.id -t [$del_tool.id]
 
 			task prompt $x.title $x.description $child_context --with-delegate
-				| ai ai-do general -f [memory $del_tool.id] --out
+				| ai ai-do general -f [...$MEMORY_TOOLS $del_tool.id] --out
 				| $in.content
 		}
 	} else {
 		{|x, ctx|
 			let child_context = $context | append $x.title
 			task prompt $x.title $x.description $child_context
-				| ai ai-do general -f [memory] --out
+				| ai ai-do general -f [...$MEMORY_TOOLS] --out
 				| $in.content
 		}
 	}

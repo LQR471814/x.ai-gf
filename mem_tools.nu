@@ -1,5 +1,5 @@
 use rag
-source ai-env.nu
+source ai_env.nu
 
 ai ai-config-env-tools mem_add {
 	schema: {

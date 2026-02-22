@@ -1,4 +1,4 @@
-source ai-env.nu
+source ai_env.nu
 source mem_tools.nu
 
 "say what you know about story writing.

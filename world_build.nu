@@ -1,6 +1,5 @@
-source ai-env.nu
+source ai_env.nu
 source world_tools.nu
-source mem_tools.nu
 
 # we will stop at a certain depth (let's say 3)
 let context: list<string> = [
@@ -17,5 +16,5 @@ let task_desc = "Make sure that all aspects of her day-in-a-life have been descr
 This is because to make her realistic, we will want to flesh out the logical constraints that she must abide by, then add style, not the other way around."
 
 task prompt $task_title $task_desc $context --with-delegate
-	| ai ai-do general -f [memory $del_tool.id] --out
+	| ai ai-do general -f [...$MEMORY_TOOLS $del_tool.id] --out
 

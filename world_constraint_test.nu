@@ -1,4 +1,4 @@
-source ./ai-env.nu
+source ./ai_env.nu
 
 const username = "John"
 const partner = "Claire"
