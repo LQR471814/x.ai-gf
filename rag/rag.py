@@ -79,9 +79,11 @@ class RAGStore:
 
     # info returns parent and children memories for a given memory
     def info(self, memory: int):
-        parent_memory_ids: list[int] = []
-        parent_relationship_types: list[str] = []
-        parent_content: list[str] = []
+        # get content
+        cursor = self.db.cursor()
+        cursor.execute("select content from memory where memory.id = ?", (memory,))
+        memory_content = cursor.fetchone()[0]
+        cursor.close()
 
         # get parents
         cursor = self.db.cursor()
@@ -92,16 +94,20 @@ select
     r.relationship_type,
     m.content
 from relationship r
-where child_memory_id = ?
 inner join memory m
-   on r.id = m.id
+   on r.child_memory_id = m.id
+where m.id = ?
 """,
             (memory,),
         )
-        for id, rel, content in cursor.fetchall():
+        parent_memory_ids: list[int] = []
+        parent_relationship_types: list[str] = []
+        parent_content: list[str] = []
+        for id, rel, memory_content in cursor.fetchall():
             parent_memory_ids.append(id)
             parent_relationship_types.append(rel)
-            parent_content.append(content)
+            parent_content.append(memory_content)
+        cursor.close()
         parents = {
             "ids": parent_memory_ids,
             "relationships": parent_relationship_types,
@@ -117,25 +123,32 @@ select
     r.relationship_type,
     m.content
 from relationship r
-where parent_memory_id = ?
 inner join memory m
-   on r.id = m.id
-"""
+   on r.parent_memory_id = m.id
+where m.id = ?
+""",
+            (memory,),
         )
         child_memory_ids: list[int] = []
         child_relationship_types: list[str] = []
         child_content: list[str] = []
-        for id, rel, content in cursor.fetchall():
+        for id, rel, memory_content in cursor.fetchall():
             child_memory_ids.append(id)
             child_relationship_types.append(rel)
-            child_content.append(content)
+            child_content.append(memory_content)
+        cursor.close()
+
         children = {
             "ids": child_memory_ids,
             "relationships": child_relationship_types,
             "content": child_content,
         }
 
-        return {"parents": parents, "children": children}
+        return {
+            "memory_content": memory_content,
+            "parents": parents,
+            "children": children,
+        }
 
     # rag executes a search for memories
     def rag(self, query: str) -> dict:
@@ -157,6 +170,8 @@ inner join memory m
         for id, content in cursor.fetchall():
             ids.append(id)
             contents.append(content)
+        cursor.close()
+
         scores: list[float] = [
             float(score) for score in self.ai.rerank(query, contents)
         ]
