@@ -1,6 +1,8 @@
+const current_file = path self
+
 def ucall [method: string, ...params: string]: nothing -> record {
 	do {
-		cd $env.FILE_PWD
+		cd ($current_file | path dirname)
 		let call_result = uv run ucall $method --uri=localhost --port=6567 ...$params
 			| complete
 		if $call_result.exit_code != 0 {

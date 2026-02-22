@@ -13,7 +13,7 @@ ai ai-config-env-tools mem_add {
 					description: "The atomic memory, should be 1 sentence."
 				}
 			}
-			required: [query]
+			required: [text]
 		}
 	}
 	handler: {|x|
@@ -94,3 +94,4 @@ ai ai-config-env-tools mem_info {
 
 ai ai-config-alloc-tools memory -t [mem_query mem_add mem_info mem_relate]
 
+const MEMORY_TOOLS: list<string> = [mem_add mem_query mem_relate mem_info]

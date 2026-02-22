@@ -12,8 +12,9 @@ let del_tool = delegate tool $context 0 2
 ai ai-config-env-tools $del_tool.id $del_tool.definition
 ai ai-config-alloc-tools $del_tool.id -t [$del_tool.id]
 
-let task_title = "build out the life of college student claire"
-let task_desc = "make sure that all aspects of her day-in-a-life have been described"
+let task_title = "Build out the life of college student Claire."
+let task_desc = "Make sure that all aspects of her day-in-a-life have been described.
+This is because to make her realistic, we will want to flesh out the logical constraints that she must abide by, then add style, not the other way around."
 
 task prompt $task_title $task_desc $context --with-delegate
 	| ai ai-do general -f [memory $del_tool.id] --out
