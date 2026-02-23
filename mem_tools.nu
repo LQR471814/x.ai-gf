@@ -53,7 +53,7 @@ ai ai-config-env-tools mem_add {
 ai ai-config-env-tools mem_query {
 	schema: {
 		name: mem_query
-		description: "Find relevant information in your memory for this query, understands natural language."
+		description: "Find relevant information in your memory for this query."
 		parameters: {
 			type: object
 			properties: {
