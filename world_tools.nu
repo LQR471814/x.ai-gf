@@ -2,26 +2,30 @@ source ai_env.nu
 source mem_tools.nu
 
 def "task prompt" [title: string, desc: string, context: list<string>, --with-delegate]: nothing -> string {
-	let suffix: string = if $with_delegate {
-		"Break down the task into a list of subtasks to other agents with the 'delegate' tool.
-
-You have a long-term memory you can access through the 'mem_*' tools, use this to store all relevant information pertaining to this task.
-
-When all delegated tasks have been completed, write out a brief summary of what you have accomplished."
+	let execution: string = if $with_delegate {
+		"1. Check your long-term memory to find relevant information pertaining to this task with `mem_query`.
+2. Complete this task, break down details into relevant subtasks to delegate to other agents by generating multiple calls to the `delegate` tool.
+3. Store completed task results into long-term memory and relate it to existing memories using the `mem_add` and `mem_relate` tools.
+4. Respond with a brief summary of what you have accomplished."
 	} else {
-		"Complete the task and write out a detailed summary of what you have accomplished and your reasoning for it."
+		"1. Check your long-term memory to find relevant information pertaining to this task with 'mem_query'.
+2. Complete the task.
+3. Store completed task results into long-term memory and relate it to existing memories using the `mem_add` and `mem_relate` tools.
+4. Respond with a brief summary of what you have accomplished."
 	}
 
-	$"You have been given the following task:
+	$"# Task
 
-You have a long-term memory you can access through the 'mem_*' tools, use this to store all relevant information pertaining to this task.
+You have been given the following task.
 
-- Context:
-($context | str join "\n")
 - Title: ($title)
 - Description: ($desc)
+- Parent tasks:
+($context | each {|it| '  - ' + $it} | str join "\n")
 
-($suffix)"
+# Execution
+
+($execution)"
 }
 
 def "delegate tool" [context: list<string>, depth: int, max_depth: int]: nothing -> record<id: string, definition: record> {
@@ -38,14 +42,14 @@ def "delegate tool" [context: list<string>, depth: int, max_depth: int]: nothing
 			ai ai-config-alloc-tools $del_tool.id -t [$del_tool.id]
 
 			task prompt $x.title $x.description $child_context --with-delegate
-				| ai ai-do general -f [...$MEMORY_TOOLS $del_tool.id] --out
+				| ai ai-do general -q -f [...$MEMORY_TOOLS $del_tool.id] --out
 				| $in.content
 		}
 	} else {
 		{|x, ctx|
 			let child_context = $context | append $x.title
 			task prompt $x.title $x.description $child_context
-				| ai ai-do general -f [...$MEMORY_TOOLS] --out
+				| ai ai-do general -q -f [...$MEMORY_TOOLS] --out
 				| $in.content
 		}
 	}

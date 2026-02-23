@@ -1,4 +1,4 @@
 docs/
 .venv/
 *.db
-*.bck
+*.bck*

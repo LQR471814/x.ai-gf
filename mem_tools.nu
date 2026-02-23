@@ -1,6 +1,34 @@
 use rag
 source ai_env.nu
 
+def "tool handler" []: closure -> closure {
+	let fn = $in
+	{|...params|
+		let input = $in
+		try {
+			$input | do $fn ...$params
+		} catch {|err|
+			print -e $err
+			error make $err
+		}
+	}
+}
+
+ai ai-config-env-tools mem_all {
+	schema: {
+		name: mem_all
+		description: "List all memories."
+		parameters: {
+			type: object
+			properties: {}
+			required: []
+		}
+	}
+	handler: ({|x|
+		"" | rag query --threshold -inf
+	} | tool handler)
+}
+
 ai ai-config-env-tools mem_add {
 	schema: {
 		name: mem_add
@@ -16,10 +44,10 @@ ai ai-config-env-tools mem_add {
 			required: [text]
 		}
 	}
-	handler: {|x|
+	handler: ({|x|
 		let id = $x.text | rag add
 		{memory_id: $id}
-	}
+	} | tool handler)
 }
 
 ai ai-config-env-tools mem_query {
@@ -37,15 +65,15 @@ ai ai-config-env-tools mem_query {
 			required: [query]
 		}
 	}
-	handler: {|x|
-		rag query --threshold 0
-	}
+	handler: ({|x|
+		$x.query | rag query --threshold 0
+	} | tool handler)
 }
 
 ai ai-config-env-tools mem_relate {
 	schema: {
 		name: mem_relate
-		description: "Creates a relationship from one memory to another."
+		description: "Creates a relationship from one memory to another, it will return null on success."
 		parameters: {
 			type: object
 			properties: {
@@ -67,9 +95,9 @@ ai ai-config-env-tools mem_relate {
 			required: [child_memory_id parent_memory_id relationship_type]
 		}
 	}
-	handler: {|x|
+	handler: ({|x|
 		rag relate $x.child_memory_id $x.parent_memory_id --type $x.relationship_type
-	}
+	} | tool handler)
 }
 
 ai ai-config-env-tools mem_info {
@@ -87,11 +115,11 @@ ai ai-config-env-tools mem_info {
 			required: [memory_id]
 		}
 	}
-	handler: {|x|
+	handler: ({|x|
 		rag info $x.memory_id
-	}
+	} | tool handler)
 }
 
-ai ai-config-alloc-tools memory -t [mem_query mem_add mem_info mem_relate]
+ai ai-config-alloc-tools memory -t [mem_query mem_add mem_info mem_relate mem_all]
 
-const MEMORY_TOOLS: list<string> = [mem_add mem_query mem_relate mem_info]
+const MEMORY_TOOLS: list<string> = [mem_add mem_query mem_relate mem_info mem_all]

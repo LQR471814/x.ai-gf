@@ -66,7 +66,7 @@ export def query [--threshold: float]: string -> table<id: int score: float text
 # add creates a new memory and returns its id
 export def add []: string -> int {
 	let memory: string = $in
-	ucall rag_add "--positional" $memory
+	ucall rag_add $"memory='($memory)'"
 		| get result
 		| get 0
 }
