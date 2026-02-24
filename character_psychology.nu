@@ -36,7 +36,8 @@ const SCHEDULE = "
 - **11:00 PM**: Sleep (consistent bedtime routine to maintain energy for the next week)
 "
 
-let prompt = $"# Context
+export def "infer psychology" []: nothing -> string {
+	let prompt = $"# Context
 
 The current datetime is: (date now | format date '%Y-%m-%d %H:%M %A')
 
@@ -60,5 +61,8 @@ Claire's schedule for today is:
 
 Your task is to characterize Claire during this moment, respond with a detailed characterization covering all 3 aspects mentioned."
 
-$prompt | ai ai-do general
+	$prompt
+		| ai ai-do general --out
+		| $in.content
+}
 
