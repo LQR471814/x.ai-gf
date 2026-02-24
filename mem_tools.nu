@@ -59,7 +59,7 @@ ai ai-config-env-tools mem_query {
 			properties: {
 				query: {
 					type: string
-					description: "The natural language query to use."
+					description: "The query to use."
 				}
 			}
 			required: [query]

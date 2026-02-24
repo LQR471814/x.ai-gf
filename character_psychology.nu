@@ -10,7 +10,7 @@ source mem_tools.nu
 # instinctual habits and learned abstractions are largely part of the character
 # setting (which is part of broader developmental considerations for the character)
 
-const schedule = "
+const SCHEDULE = "
 ### **Morning (7:00 AM – 12:00 PM)**
 - **7:00 AM**: Wake up, enjoy a healthy breakfast (e.g., oatmeal with berries)
 - **8:00 AM**: Attend morning academic session (e.g., group project review for her campus sustainability club)
@@ -46,7 +46,7 @@ You can access general information about the world and the characters in it \(in
 
 Claire's schedule for today is:
 
-($schedule)
+($SCHEDULE)
 
 ## Principles of characterization
 

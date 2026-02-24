@@ -23,12 +23,7 @@ source mem_tools.nu
 # consider what sort of previous experiences they've had that somewhat map onto
 # the current context
 
-let prompt = "# Context
-
-You can access general information about the world and the characters in it
-\(including claire\) using the 'mem_query' tool.
-
-# Principles of conversation style
+let prompt = "# Principles of conversation style
 
 The actual text that arises from a conversation is largely a product of
 practical factors.
@@ -50,15 +45,14 @@ experiences they've had that somewhat map onto the current context.
 
 # Task
 
-You are to characterize Claire's conversation style based off of her
-experiences (or inferred experiences) derived from long-term memory.
-
-Use the 'mem_query' tool to look up information regarding her activities,
-behavior, and experiences.
+You are to characterize Claire's conversation style with her romantic partner
+based off of the principles of conversation style.
 
 Provide 2-3 examples of her conversations.
 
 Note: Claire is generation Z, use this to inform the broad strokes of your
-output."
+output.
 
-$prompt | ai ai-do general -f [mem_query]
+Note: You are not allowed to use emojis."
+
+$prompt | ai ai-do general
